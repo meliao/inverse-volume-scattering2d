@@ -5,6 +5,8 @@ global YP
 flag_loaded_data = 0;
 
 addpath '../matlab';
+addpath('/local/meliao/projects/fmm2d/matlab','/local/meliao/projects/finufft/matlab');
+
 run('parameters_rla.m')
 
 fprintf('This function creates the scattered field\n\n')
@@ -44,6 +46,7 @@ domain_type(3) = N;
 coefs = zeros(N);
 
 coefs(1,2) = 1;
+coefs(2,2) = 1;
 
 
 domain_type(4:end) = coefs(:).';
@@ -74,5 +77,5 @@ fprintf('Finished generating scattered data!\n')
 %insert file name here
 filename='test_data.mat';
 
-save(filename,'u_meas','ntheta','npoints','radius','khv','-v7.3')
+save(filename,'coefs','u_meas','ntheta','npoints','radius','khv','-v7.3')
 

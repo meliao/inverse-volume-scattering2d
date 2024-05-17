@@ -58,3 +58,32 @@ which has the following fields
 
 
 Codes by: Carlos Borges, Adrianna Gillman
+
+
+# Owen's Install Notes
+
+Installing `finufft`:
+```
+git clone https://github.com/flatironinstitute/finufft.git
+cd finufft
+mkdir build
+cd build
+```
+Then I run the cmake command:
+```
+PATH=/local/meliao/MATLAB/R2024a/bin:$PATH
+/local/meliao/cmake-3.29.3-linux-x86_64/bin/cmake .. -D FINUFFT_BUILD_TESTS=ON -D FINUFFT_BUILD_MATLAB=ON --install-prefix /local/meliao/finufft 
+/local/meliao/cmake-3.29.3-linux-x86_64/bin/cmake --build . -j
+/local/meliao/cmake-3.29.3-linux-x86_64/bin/ctest
+/local/meliao/cmake-3.29.3-linux-x86_64/bin/cmake --install .
+cd ..
+make matlab
+```
+
+
+Installing `fmm2d`:
+```
+git clone git@github.com:flatironinstitute/fmm2d.git
+cd fmm2d
+make install
+```

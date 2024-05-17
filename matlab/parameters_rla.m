@@ -24,19 +24,21 @@ if flag_loaded_data
     end
 else
     %frequency
-    init_k=1;              %initial frequency
-    end_k=3;              %final frequency
-    dk=0.25;                %frequency step
-    khv=init_k:dk:end_k;   %frequency vector
-    
+    % init_k=1;              %initial frequency
+    % end_k=3;              %final frequency
+    % dk=0.25;                %frequency step
+    % khv=init_k:dk:end_k;   %frequency vector
+    khv=[2*pi 4*pi 8*pi 16*pi 32*pi];
+
+
     %search parameters    
     nmodes=floor(2*khv);%30*ones(1,length(khv));   %nmodes used for reconstruction
     ncoefs=nmodes.*nmodes; %number of coefficients in solution
     
     %targets
-    radius=10;              %radius        	    
-    ntheta=nmodes;         %number of incidence directions    
-    npoints=4*nmodes;      %number of receptors
+    radius=100;              %radius        	    
+    ntheta=192*ones(numel(khv));         %number of incidence directions    
+    npoints=192*ones(numel(khv));      %number of receptors
     
 end
 

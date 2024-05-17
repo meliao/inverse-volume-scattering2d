@@ -2,7 +2,7 @@ clear
 format long
 
 addpath('../matlab');
-
+addpath('/local/meliao/projects/fmm2d/matlab','/local/meliao/projects/finufft/matlab');
 %choose to add noise
 % noise_type = 0; no noise
 %              1; additive
