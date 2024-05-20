@@ -47,6 +47,11 @@ for ikh = 1 : length(khv) %frequency loop
 
                 c1=zeros(1,nmodes(ikh)*nmodes(ikh));
                 domain=[nmodes(ikh),c1];
+                fprintf('\n SHAPE of domain: %s', num2str(size(domain)));
+
+                % load('our_sample_sin_transform.mat');
+                % domain=coefs_warm_start;
+
 
         else
 
