@@ -6,7 +6,7 @@ import h5py
 import argparse
 import os
 import time
-from helpers.plot_solution import evaluate_sine_series
+# from helpers.plot_solution import evaluate_sine_series
 
 
 def load_field_in_hdf5(
@@ -42,6 +42,30 @@ def setup_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
+def evaluate_sine_series(coefs, X, Y):
+    """
+    Evaluate the 2D sine series on a 2D uniform grid.
+
+    Parameters:
+    coefs (2D array): Coefficients of the sine series.
+    X (2D array): X coordinates of the grid.
+    Y (2D array): Y coordinates of the grid.
+
+    Returns:
+    q (2D array): The evaluated sine series on the grid.
+    """
+    q = np.zeros_like(X)
+    m, n = coefs.shape
+
+    for j in range(m):
+        for k in range(n):
+            q += (
+                coefs[j, k]
+                * np.sin((j + 1) * (X + np.pi / 2))
+                * np.sin((k + 1) * (Y + np.pi / 2))
+            )
+
+    return q
 
 def sine_series(q: np.ndarray, X: np.ndarray, Y: np.ndarray, N: int):
     """

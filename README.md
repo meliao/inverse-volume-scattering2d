@@ -87,3 +87,31 @@ git clone git@github.com:flatironinstitute/fmm2d.git
 cd fmm2d
 make install
 ```
+
+## Installation on the compute cluster
+
+
+Installing `finufft`:
+```
+git clone https://github.com/flatironinstitute/finufft.git
+cd finufft
+mkdir build
+cd build
+```
+Then I run the cmake command:
+```
+PATH=/net/local/matlab/R2023a/bin:$PATH
+/home/meliao/cmake-3.29.3-linux-x86_64/bin/cmake .. -D FINUFFT_BUILD_TESTS=ON -D FINUFFT_BUILD_MATLAB=ON --install-prefix /home/meliao/finufft 
+/home/meliao/cmake-3.29.3-linux-x86_64/bin/cmake --build . -j
+/home/meliao/cmake-3.29.3-linux-x86_64/bin/ctest
+/home/meliao/cmake-3.29.3-linux-x86_64/bin/cmake --install .
+cd ..
+make matlab
+```
+
+Installing `fmm2d`:
+```
+git clone git@github.com:flatironinstitute/fmm2d.git
+cd fmm2d
+make install
+```
