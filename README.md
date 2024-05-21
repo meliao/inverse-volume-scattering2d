@@ -62,6 +62,7 @@ Codes by: Carlos Borges, Adrianna Gillman
 
 # Owen's Install Notes
 
+## finufft
 Installing `finufft`:
 ```
 git clone https://github.com/flatironinstitute/finufft.git
@@ -80,6 +81,24 @@ cd ..
 make matlab
 ```
 
+### On laptop
+
+Clone the repo and set up build dir:
+```
+git clone https://github.com/flatironinstitute/finufft.git
+cd finufft
+mkdir build
+cd build
+```
+Do the compiling:
+```
+brew install libomp fftw
+cmake .. -D FINUFFT_BUILD_TESTS=ON -D FINUFFT_BUILD_MATLAB=ON 
+cmake --build . -j
+ctest
+cmake --install .
+cd ..
+make matlab
 
 Installing `fmm2d`:
 ```
