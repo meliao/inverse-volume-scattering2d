@@ -78,6 +78,7 @@ if __name__ == "__main__":
         coefs = f["coefs"][:]
 
     coefs = coefs.T
+    print(f"Reference coefs has shape {coefs.shape}")
 
     _, n_iters = data["solution"].shape
 

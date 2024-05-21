@@ -24,11 +24,11 @@ if flag_loaded_data
     end
 else
     %frequency
-    % init_k=1;              %initial frequency
-    % end_k=3;              %final frequency
-    % dk=0.25;                %frequency step
-    % khv=init_k:dk:end_k;   %frequency vector
-    khv=[2*pi 4*pi 8*pi 16*pi 32*pi];
+    init_k=1;              %initial frequency
+    end_k=3;              %final frequency
+    dk=0.25;                %frequency step
+    khv=init_k:dk:end_k;   %frequency vector
+    % khv=[2*pi 4*pi 8*pi 16*pi 32*pi];
 
 
     %search parameters    

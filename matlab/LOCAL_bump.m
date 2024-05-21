@@ -182,6 +182,33 @@ elseif (flag_option == 99)
     b(abs(XX1)>a)=0; b(abs(XX2)>a)=0;   
     b=reshape(b,n1,n2);       
    
+
+elseif (flag_option == 102)
+    % Expansion of sines in box with half-side-length 1/2 with nonuniform fft
+    %%%%For sines begin
+    N=params(3);        
+    coefs=params(4:end);
+    a=1/2;%size of domain
+    
+    [n1,n2]=size(XX1);   
+    
+    xj = XX1(:)+1/2;
+    yj = XX2(:)+1/2;
+    nj = length(xj);
+
+    eps = 1e-13;
+    iflag = +1;
+    
+    ms=2*N; mt=ms;
+    fk_aux=zeros(ms,ms);
+    fk_aux(ms/2:-1:1,ms/2:-1:1)=reshape(coefs',ms/2,ms/2);
+    fk = fk_aux;
+    cj = finufft2d2(xj,yj,iflag,eps,fk);
+    cjn= finufft2d2(xj,-yj,iflag,eps,fk);
+    
+        b=real(cjn-cj)/2;
+        b(abs(XX1)>a)=0; b(abs(XX2)>a)=0;   
+        b=reshape(b,n1,n2);       
 elseif (flag_option == 999)   
 % Expansion of sines in box of radius pi/2 with nonuniform fft
 %%%%For sines begin

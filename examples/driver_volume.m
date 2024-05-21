@@ -2,7 +2,8 @@ clear
 format long
 
 addpath('../matlab');
-addpath('/local/meliao/projects/fmm2d/matlab','/local/meliao/projects/finufft/matlab');
+% addpath('/local/meliao/projects/fmm2d/matlab','/local/meliao/projects/finufft/matlab');
+addpath('/home/meliao/projects/finufft/matlab','/home/meliao/projects/fmm2d/matlab');
 %choose to add noise
 % noise_type = 0; no noise
 %              1; additive
@@ -26,6 +27,8 @@ global reg_parameter
 reg_param_vec=floor(2*khv);
 reg_param_vec(reg_param_vec<3)=3;
 
+load('our_sample_sin_transform.m');
+
 fprintf('Newton method!\n')
 for ikh = 1 : length(khv) %frequency loop
     
@@ -48,13 +51,19 @@ for ikh = 1 : length(khv) %frequency loop
                 c1=zeros(1,nmodes(ikh)*nmodes(ikh));
                 domain=[nmodes(ikh),c1];
 
+                % TODO: Warm start with the correct elements of coefs_warm_start
+
+
         else
 
                 coefs_old=domain(2:end);
                 coefs=leveling(nmodes(ikh),nmodes(ikh-1),coefs_old);
                 domain=[nmodes(ikh),coefs];
 
+                % TODO: Warm start with the correct elements of coefs_warm_start
+
         end
+        fprintf('\n SHAPE of domain: %s\n', num2str(size(domain)));
 
         %flags for Newton method
         res_old=1;

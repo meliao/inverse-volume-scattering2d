@@ -5,7 +5,7 @@ global YP
 flag_loaded_data = 0;
 
 addpath '../matlab';
-addpath('/local/meliao/projects/fmm2d/matlab','/local/meliao/projects/finufft/matlab');
+addpath('/home/meliao/projects/finufft/matlab','/home/meliao/projects/fmm2d/matlab');
 
 run('parameters_rla.m')
 
@@ -37,16 +37,19 @@ t1=-len_1/2:len_1/(N):len_1/2;t2=-len_2/2:len_2/(N):len_2/2;
 N = 3;
 domain_type = zeros(1,N^2+3);
 domain_type(1) = 99;
+% domain_type(1) = 102;
 domain_type(3) = N;
 
 % N \times N matrix of coefficients -> set this to get new training data
 
 % q = \sum_{jk} coefs(j,k) \sin(j (x+\pi/2)) \sin(k(y+\pi/2)) for (x,y) \in
 % (-\pi/2,pi/2)^2
-coefs = zeros(N);
 
+% load('our_sample_sin_transform.mat');
+% coefs = coefs_ground_truth;
+coefs = zeros(N);
 coefs(1,2) = 1;
-coefs(2,2) = 1;
+% coefs(1,5) = 1;
 
 
 domain_type(4:end) = coefs(:).';
