@@ -3,14 +3,31 @@ import scipy.io
 import matplotlib.pyplot as plt
 import sys
 import h5py
+import argparse
 
 
-def plot_reconstructions(x: np.ndarray, q_true: np.ndarray, save_fp: str) -> None:
+def setup_args() -> argparse.Namespace:
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--reconstruction_fp", default="examples/test_result.mat")
+    parser.add_argument("--reference_fp", default="examples/test_data.mat")
+    parser.add_argument(
+        "--plot_fp_reconstructions", default="examples/reconstructions.png"
+    )
+    parser.add_argument("--plot_fp_errors", default="examples/errors.png")
+
+    return parser.parse_args()
+
+
+def plot_reconstructions(x: np.ndarray, q_true: np.ndarray, save_fp: str) -> np.ndarray:
     """x has shape (N_freqs, N_x, N_x).
     This function makes a column of N_freqs plots.
+
+    Returns the relative L2 errors
     """
     n = x.shape[0]
     fig, ax = plt.subplots(n, 3, figsize=(15, 5 * n))
+    rel_l2_error_vals = np.empty((n,))
 
     for i in range(n):
 
@@ -26,6 +43,22 @@ def plot_reconstructions(x: np.ndarray, q_true: np.ndarray, save_fp: str) -> Non
         im_2 = ax[i, 2].imshow(np.abs(x[i] - q_true), cmap="hot")
         ax[i, 2].set_title(f"Errors, RelL2={rel_l2_error}")
         plt.colorbar(im_2, ax=ax[i, 2])
+
+        rel_l2_error_vals[i] = rel_l2_error
+
+    fig.tight_layout()
+    plt.savefig(save_fp)
+
+    return rel_l2_error
+
+
+def plot_errors(error_arr: np.ndarray, k_arr: np.ndarray, save_fp: str) -> None:
+
+    fig, ax = plt.subplots()
+    ax.plot(k_arr, error_arr, "-")
+
+    ax.set_xlabel("Incident wave frequency")
+    ax.set_ylabel("Relative L2 Error")
 
     fig.tight_layout()
     plt.savefig(save_fp)
@@ -57,25 +90,15 @@ def evaluate_sine_series(coefs, X, Y):
     return q
 
 
-if __name__ == "__main__":
+def main(args: argparse.Namespace) -> None:
 
-    extra_args = sys.argv[1:]
-    if len(extra_args):
-        load_fp = extra_args[0]
+    print(f"Loading data from {args.reconstruction_fp}")
+    data = scipy.io.loadmat(args.reconstruction_fp)
 
-    else:
-        load_fp = "examples/test_result.mat"
-
-    reference_fp = "examples/test_data.mat"
-
-    out_fp = "examples/reconstructions.png"
-
-    print(f"Loading data from {load_fp}")
-    data = scipy.io.loadmat(load_fp)
-
-    print(f"Loading reference data from {reference_fp}")
-    with h5py.File(reference_fp) as f:
+    print(f"Loading reference data from {args.reference_fp}")
+    with h5py.File(args.reference_fp) as f:
         coefs = f["coefs"][:]
+        freqs = f["kvh"][:]
 
     coefs = coefs.T
     print(f"Reference coefs has shape {coefs.shape}")
@@ -102,4 +125,11 @@ if __name__ == "__main__":
         x[i] = data["solution"][0, i][0]
 
     print("Plotting reconstructions")
-    plot_reconstructions(x, q_true, out_fp)
+    rel_l2_error_vals = plot_reconstructions(x, q_true, args.plot_fp_reconstructions)
+
+    plot_errors(rel_l2_error_vals, freqs, args.plot_fp_errors)
+
+
+if __name__ == "__main__":
+    a = setup_args()
+    main(a)

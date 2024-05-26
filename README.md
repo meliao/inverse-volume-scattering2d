@@ -93,7 +93,9 @@ cd build
 Do the compiling:
 ```
 brew install libomp fftw
-cmake .. -D FINUFFT_BUILD_TESTS=ON -D FINUFFT_BUILD_MATLAB=ON 
+export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
+cmake .. -D FINUFFT_BUILD_TESTS=ON -D FINUFFT_BUILD_MATLAB=ON -D FINUFFT_USE_OPENMP=OFF
 cmake --build . -j
 ctest
 cmake --install .
